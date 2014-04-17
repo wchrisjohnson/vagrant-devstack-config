@@ -21,7 +21,7 @@ mkdir devstack
 $ vagrant init
 ```
 
-#### Modify the vagrant recipe
+#### Modify the vagrant recipe:
 
 Example:
 
@@ -47,13 +47,13 @@ end
 $ vagrant up
 ```
 
-#### SSH into the vm
+#### SSH into the vm:
 
 ```
 $ vagrant ssh
 ```
 
-#### Update the vm
+#### Update the vm:
 
 ```
 $ sudo apt-get update
@@ -73,7 +73,9 @@ The samples folder contains two files: an example config file for devstack (loca
 $ cp samples/local.conf .
 ```
 
-#### Create a local devstack config file (local.conf) that looks close to the following:
+#### Update the devstack config file:
+
+The local.conf is used to include/exclude many of the services within devstack when booting up. My version of this configuration is in the repo. A very basic example is here:
 
 ```
 ADMIN_PASSWORD=stack

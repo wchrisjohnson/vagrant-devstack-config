@@ -1,0 +1,21 @@
+[[local|localrc]]
+
+ADMIN_PASSWORD=stack
+MYSQL_PASSWORD=stackdb
+DATABASE_PASSWORD=$MYSQL_PASSWORD
+RABBIT_PASSWORD=stackqueue
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=tokentoken
+
+# Network configuration. HOST_IP should be the same as the IP you used
+# for the private network in your Vagrantfile. The combination of
+# FLAT_INTERFACE and PUBLIC_INTERFACE indicates that OpenStack should
+# bridge network traffic over eth1.
+
+HOST_IP=172.16.0.2
+HOST_IP_IFACE=eth1
+FLAT_INTERFACE=eth0
+FIXED_RANGE=172.16.1.0/24
+FIXED_NETWORK_SIZE=256
+PUBLIC_INTERFACE=eth1
+FLOATING_RANGE=172.16.0.224/27

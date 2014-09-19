@@ -124,3 +124,15 @@ The default users are: admin and demo
 The password: stack
 This is your host ip: 172.16.0.2
 ```
+
+
+
+#### Possible issues
+
+virsh hanging in the console during run of stack.sh
+
+    http://askubuntu.com/questions/141720/why-is-sudo-virsh-hanging-in-the-console
+
+ERROR: openstackclient.shell Exception raised: six>=1.6.0
+
+    Need to install correct version of pip via easy install (script does this)

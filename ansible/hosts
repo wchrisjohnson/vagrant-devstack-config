@@ -1,0 +1,2 @@
+[devstack]
+192.168.85.131 ansible_ssh_user=vagrant

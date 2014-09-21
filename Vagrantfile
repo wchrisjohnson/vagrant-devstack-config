@@ -64,15 +64,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.vmx["vhv.enable"] = "TRUE"
   end
 
-  # Provision
-  config.vm.provision :ansible do |ansible|
-    # ansible.sudo = true
-    # ansible.sudo_user = "root"
-    ansible.playbook = "ansible/devstack.yml"
-    ansible.inventory_path = "ansible/hosts"
-    ansible.verbose = true
-  end
+  # # Prep for provision
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/devstack.yml"
+  #   ansible.limit = 'all'
+  # end
+  #
+  # # do the provision via shell vs ansible so we
+  # # can watch the progress.
+  # config.vm.provision :shell, :path => "bootstrap.sh", :privileged => false
 
-  config.vm.provision :shell, :path => "bootstrap.sh", :privileged => false
+  # Post provision
+  config.vm.provision :ansible do |ansible|
+    ansible.verbose = true
+    ansible.playbook = "ansible/finalize.yml"
+    ansible.limit = 'all'
+  end
 
 end

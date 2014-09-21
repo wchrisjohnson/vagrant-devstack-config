@@ -5,25 +5,12 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "puphpet/ubuntu1404-x64"
   config.vm.hostname = "trusty64"
-  # Not needed unless we specify an unknown box location
-  # config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 80, host: 8000
+  config.vm.network "forwarded_port", guest: 80, host: 8888
   config.vm.network "forwarded_port", guest: 3333, host: 3333
   config.vm.network "forwarded_port", guest: 5000, host: 5000
   config.vm.network "forwarded_port", guest: 8000, host: 8000
@@ -73,13 +60,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   # # do the provision via shell vs ansible so we
   # # can watch the progress.
-  # config.vm.provision :shell, :path => "bootstrap.sh", :privileged => false
-
-  # Post provision
-  config.vm.provision :ansible do |ansible|
-    ansible.verbose = true
-    ansible.playbook = "ansible/finalize.yml"
-    ansible.limit = 'all'
-  end
+  # config.vm.provision :shell, :path => "ansible/bootstrap.sh", :privileged => false
+  #
+  # # Post provision
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/keypair.yml"
+  #   ansible.limit = 'all'
+  # end
+  #
+  # # Setup DNS and open ports
+  # config.vm.provision :shell, :path => "ansible/finalize.sh", :privileged => false
 
 end

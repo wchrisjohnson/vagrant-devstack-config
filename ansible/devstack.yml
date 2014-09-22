@@ -10,6 +10,7 @@
   # install vim
   - name: install vim
     apt: name=vim state=latest
+    sudo: True
 
   # install git
   - name: ensure git is at the latest version
@@ -30,11 +31,3 @@
   # create local.conf file
   - name: generate the local.conf file
     template: src=templates/devstack.j2 dest=/home/vagrant/devstack/local.conf
-
-  # stack.sh
-  - shell: /home/vagrant/devstack/patched_stack.sh >> /home/vagrant/devstack/patched_stack.sh.log
-    args:
-      chdir: /home/vagrant/devstack/
-
-  # add my pubkey to devstack
-  - shell:

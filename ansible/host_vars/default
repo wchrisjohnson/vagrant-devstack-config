@@ -1,6 +1,6 @@
 ---
 password: stack
-#local_ssh_pubkey: ~/.ssh/id_rsa.pub
+host_ip: 172.16.0.2
 dest: /opt/stack
 service_token: tokentoken
 swift_hash: 66a3d6b56c1f479c8b4e70ab5c2000f5

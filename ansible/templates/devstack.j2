@@ -100,17 +100,10 @@ SCREEN_LOGDIR={{ dest }}/logs/screen
 
 # HOST
 # -----
-# HOST_IP=172.16.231.2
-# HOST_NAME=precise64
-# SERVICE_HOST=172.16.231.2
-# SERVICE_HOST_NAME=precise64
-# MYSQL_HOST=172.16.231.2
-# RABBIT_HOST=172.16.231.2
-# Q_HOST=172.16.231.2
-
-# FLAT_INTERFACE=br100
-# PUBLIC_INTERFACE=eth1
-# FLOATING_RANGE=172.16.231.224/27
+HOST_IP={{host_ip}}
+SERVICE_HOST={{host_ip}}
+DATABASE_HOST={{host_ip}}
+RABBIT_HOST={{host_ip}}
 
 RECLONE={{ reclone }}
 API_RATE_LIMIT={{ api_rate_limit }}

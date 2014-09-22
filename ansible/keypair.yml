@@ -10,7 +10,7 @@
   # Creates a keypair with the running users public key
   - nova_keypair: state=present
                   login_username=demo
-                  auth_url=http://192.168.85.132:35357/v2.0/
+                  auth_url=http://{{host_ip}}:35357/v2.0/
                   login_password={{password}}
                   login_tenant_name=demo
                   name=demo

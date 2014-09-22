@@ -23,14 +23,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 9696, host: 9696
   config.vm.network "forwarded_port", guest: 35357, host: 35357
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network"  #, ip: "172.16.231.2", auto_config: false
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  config.vm.network "public_network" #, ip: "192.168.85.2", auto_config: false
+  config.vm.network "private_network", ip: "172.16.0.2", auto_config: true
+  config.vm.network "private_network", ip: "172.16.10.2", auto_config: true
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
@@ -51,25 +45,28 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.vmx["vhv.enable"] = "TRUE"
   end
 
-  # # Prep for provision
-  # config.vm.provision :ansible do |ansible|
-  #   ansible.verbose = true
-  #   ansible.playbook = "ansible/devstack.yml"
-  #   ansible.limit = 'all'
-  # end
-  #
-  # # do the provision via shell vs ansible so we
-  # # can watch the progress.
-  # config.vm.provision :shell, :path => "ansible/bootstrap.sh", :privileged => false
-  #
-  # # Post provision
-  # config.vm.provision :ansible do |ansible|
-  #   ansible.verbose = true
-  #   ansible.playbook = "ansible/keypair.yml"
-  #   ansible.limit = 'all'
-  # end
-  #
-  # # Setup DNS and open ports
-  # config.vm.provision :shell, :path => "ansible/finalize.sh", :privileged => false
+  # Create local.conf file and push it to vm
+  config.vm.provision :ansible do |ansible|
+    ansible.verbose = true
+    ansible.playbook = "ansible/devstack.yml"
+    ansible.limit = 'all'
+  end
+
+  # do the provision via shell vs ansible so we
+  # can watch the progress.
+  config.vm.provision :shell, :path => "ansible/bootstrap.sh", :privileged => false
+
+  # # create nic#2 (eth1)
+  # config.vm.provision :shell, :path => "ansible/add_eth1.sh", :privileged => false
+
+  # Create a keypair, add it to devstack
+  config.vm.provision :ansible do |ansible|
+    ansible.verbose = true
+    ansible.playbook = "ansible/keypair.yml"
+    ansible.limit = 'all'
+  end
+
+  # Setup DNS and open ports
+  config.vm.provision :shell, :path => "ansible/finalize.sh", :privileged => false
 
 end

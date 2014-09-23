@@ -23,8 +23,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 9696, host: 9696
   config.vm.network "forwarded_port", guest: 35357, host: 35357
 
-  config.vm.network "private_network", ip: "172.16.0.2", auto_config: true
-  config.vm.network "private_network", ip: "172.16.10.2", auto_config: true
+  # eth0 - vmnet0
+  # This is equivalent to "Share with my mac":
+  # The virtual machine shares the IP address of the Mac
+  # on the external network. The Mac provides Network
+  # Address Translation (NAT) for network traffic from
+  # the virtual machine.
+  config.vm.network "private_network"  #, ip: "192.168.39.x"
+
+  # eth1 - vmnet8
+  # This is equivalent to "Private to my mac"
+  # The virtual machine is connected to your Mac using
+  # a private virtual network. The private network is not
+  # normally accessible from the physical networks on
+  # the Mac.
+  # Multiple virtual machines can be connected to the
+  # same private network.
+  config.vm.network "private_network", ip: "172.16.40.128" #, auto_config: true
+
+  # A "public_network" config will put a nic on my local
+  # network, 192.168.123.x, which I DO NOT want to do.
+  # config.vm.network "public_network"
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
@@ -56,8 +75,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # can watch the progress.
   config.vm.provision :shell, :path => "ansible/bootstrap.sh", :privileged => false
 
-  # # create nic#2 (eth1)
-  # config.vm.provision :shell, :path => "ansible/add_eth1.sh", :privileged => false
+  # # # create nic#2 (eth1)
+  # # config.vm.provision :shell, :path => "ansible/add_eth1.sh", :privileged => false
 
   # Create a keypair, add it to devstack
   config.vm.provision :ansible do |ansible|

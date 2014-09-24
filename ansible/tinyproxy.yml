@@ -1,0 +1,15 @@
+---
+- hosts: all
+  remote_user: vagrant
+  tasks:
+
+  # install tinyproxy so I can hit guest VM from host
+  - name: install tinyproxy
+    apt: name=tinyproxy state=latest
+    sudo: True
+
+  # modify the conf file - change port from 8888 to 9999
+  - lineinfile: "dest=/etc/tinyproxy.conf state=present regexp='^Port 8888' line='Port 9999'"
+
+  # restart tinyproxy
+  - command: sudo /etc/init.d/tinyproxy reload

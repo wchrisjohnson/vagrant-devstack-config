@@ -23,6 +23,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 9696, host: 9696
   config.vm.network "forwarded_port", guest: 35357, host: 35357
 
+  # TINYPROXY USES PORT ---> 9999
+
   # eth0 - vmnet0
   # This is equivalent to "Share with my mac":
   # The virtual machine shares the IP address of the Mac
@@ -64,28 +66,32 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.vmx["vhv.enable"] = "TRUE"
   end
 
-  # Create local.conf file and push it to vm
-  config.vm.provision :ansible do |ansible|
-    ansible.verbose = true
-    ansible.playbook = "ansible/devstack.yml"
-    ansible.limit = 'all'
-  end
+  # # Create local.conf file and push it to vm
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/devstack.yml"
+  #   ansible.limit = 'all'
+  # end
 
-  # do the provision via shell vs ansible so we
-  # can watch the progress.
-  config.vm.provision :shell, :path => "ansible/bootstrap.sh", :privileged => false
+  # # do the provision via shell vs ansible so we
+  # # can watch the progress.
+  # config.vm.provision :shell, :path => "ansible/bootstrap.sh", :privileged => false
 
-  # # # create nic#2 (eth1)
-  # # config.vm.provision :shell, :path => "ansible/add_eth1.sh", :privileged => false
+  # # Create a keypair, add it to devstack
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/keypair.yml"
+  #   ansible.limit = 'all'
+  # end
 
-  # Create a keypair, add it to devstack
-  config.vm.provision :ansible do |ansible|
-    ansible.verbose = true
-    ansible.playbook = "ansible/keypair.yml"
-    ansible.limit = 'all'
-  end
+  # # Setup DNS and open ports
+  # config.vm.provision :shell, :path => "ansible/finalize.sh", :privileged => false
 
-  # Setup DNS and open ports
-  config.vm.provision :shell, :path => "ansible/finalize.sh", :privileged => false
+  # # Install tinyproxy, forward to guest vm
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/tinyproxy.yml"
+  #   ansible.limit = 'all'
+  # end
 
 end

@@ -1,2 +1,0 @@
-
-default ansible_ssh_host=172.16.40.128 ansible_ssh_port=22

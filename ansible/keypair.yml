@@ -1,10 +1,9 @@
 ---
-- hosts: all
+- hosts: default
   remote_user: vagrant
   tasks:
 
   # Generate a new public key for demo
-  # - name: patch stack.sh to use correct version of pip, create patched_stack.sh
   - command: ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa creates=~/.ssh/id_rsa
 
   # Creates a keypair with the running users public key

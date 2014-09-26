@@ -23,15 +23,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 9696, host: 9696
   config.vm.network "forwarded_port", guest: 35357, host: 35357
 
-  # TINYPROXY USES PORT ---> 9999
+  # TINYPROXY
+  config.vm.network "forwarded_port", guest: 9099, host: 9099
+
 
   # eth0 - vmnet0
-  # This is equivalent to "Share with my mac":
-  # The virtual machine shares the IP address of the Mac
-  # on the external network. The Mac provides Network
-  # Address Translation (NAT) for network traffic from
-  # the virtual machine.
-  config.vm.network "private_network"  #, ip: "192.168.39.x"
+  # This nic is owned/controlled by vagrant.
 
   # eth1 - vmnet8
   # This is equivalent to "Private to my mac"
@@ -55,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "/Users/wchrisjohnson/code/vagrant/vagrant_data", "/vagrant_data"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -66,31 +63,63 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.vmx["vhv.enable"] = "TRUE"
   end
 
-  # # Create local.conf file and push it to vm
+  # Create devstack local.conf file and push it to vm
   # config.vm.provision :ansible do |ansible|
   #   ansible.verbose = true
-  #   ansible.playbook = "ansible/devstack.yml"
+  #   ansible.playbook = "ansible/devstack_config.yml"
   #   ansible.limit = 'all'
   # end
 
-  # # do the provision via shell vs ansible so we
-  # # can watch the progress.
+  # do the provision via shell vs ansible so we
+  # can watch the progress.
+  # OLD WAY
   # config.vm.provision :shell, :path => "ansible/bootstrap.sh", :privileged => false
+  # NEW WAY
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/bootstrap.yml"
+  #   ansible.limit = 'all'
+  # end
 
-  # # Create a keypair, add it to devstack
+  # Open up eth0 for outbound acces from guest VMs
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/enable_outbound_guest_vms.yml"
+  #   ansible.limit = 'all'
+  # end
+
+
+  # Create a keypair, add it to devstack
   # config.vm.provision :ansible do |ansible|
   #   ansible.verbose = true
   #   ansible.playbook = "ansible/keypair.yml"
   #   ansible.limit = 'all'
   # end
 
-  # # Setup DNS and open ports
-  # config.vm.provision :shell, :path => "ansible/finalize.sh", :privileged => false
 
-  # # Install tinyproxy, forward to guest vm
+  # Setup DNS and open ports
+  # OLD WAY
+  # config.vm.provision :shell, :path => "ansible/finalize.sh", :privileged => false
+  # NEW WAY
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/finalize.yml"
+  #   ansible.limit = 'all'
+  # end
+
+
+  # Install tinyproxy, forward to guest vm
   # config.vm.provision :ansible do |ansible|
   #   ansible.verbose = true
   #   ansible.playbook = "ansible/tinyproxy.yml"
+  #   ansible.limit = 'all'
+  # end
+
+
+  # upload os images to glance
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.verbose = true
+  #   ansible.playbook = "ansible/upload_images.yml"
   #   ansible.limit = 'all'
   # end
 

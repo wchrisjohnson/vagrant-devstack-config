@@ -1,5 +1,5 @@
 ---
-- hosts: all  #ansible/hosts
+- hosts: default
   remote_user: vagrant
   tasks:
 

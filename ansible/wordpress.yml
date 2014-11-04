@@ -4,7 +4,6 @@
   tasks:
 
   # copy the wordpress user data over to the devstack host
-  # create local.conf file
   - name: copy over the user_data file that will be used to install wordpress
     template: src=templates/wordpress.j2 dest=/home/vagrant/wordpress_user_data.txt
 

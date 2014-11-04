@@ -65,7 +65,7 @@
 
   # Creates a keypair with the running users public key
   - nova_keypair: state=present
-                  login_username=ubuntu
+                  login_username=demo
                   login_password={{password}}
                   login_tenant_name=demo
                   name=demo
@@ -80,42 +80,6 @@
   # Transfers the script to the remote host and runs it
   # Setup DNS and open ports in the security group
   - script: finalize.sh
-
-  #====================================
-  # tinyproxy.yml
-  #====================================
-
-  # ------------------------------------------
-  # install tinyproxy so I can hit guest VM from host
-  # ------------------------------------------
-
-  - name: install tinyproxy
-    apt: name=tinyproxy state=latest
-    sudo: True
-
-  # ------------------------------------------
-  # Configure the proxy server via config file
-  # ------------------------------------------
-
-  # - Host IP & port to listen on
-  - lineinfile: dest=/etc/tinyproxy.conf state=present regexp='^#Listen 192.168.0.1' line='Listen {{host_ip}}'
-    sudo: True
-  - lineinfile: dest=/etc/tinyproxy.conf state=present regexp='^Port 8888' line='Port 9099'
-    sudo: True
-
-  # - Guest IP address & port
-  - lineinfile: dest=/etc/tinyproxy.conf state=present regexp='^Allow 127.0.0.1' line='Allow {{wordpress_ip}}'
-    sudo: True
-    # Allow 172.24.0.0/16 - maybe use in future...
-  - lineinfile: dest=/etc/tinyproxy.conf line="ConnectPort 80"
-    sudo: True
-
-  # ------------------------------------------
-  # restart tinyproxy
-  # ------------------------------------------
-
-  - command: sudo /etc/init.d/tinyproxy reload
-
 
   #====================================
   # Upload images into glance from a local file store.

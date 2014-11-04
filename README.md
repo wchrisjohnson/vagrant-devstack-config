@@ -1,18 +1,20 @@
 ### Installing devstack via Vagrant
 
-#### Install VirtualBox
-Download & install [VirtualBox + Extension Pack](https://www.virtualbox.org/wiki/Downloads).
+#### Install VMware Fusion
+[VMware Fusion](https://).
 
 #### Install Vagrant
 Download & install [Vagrant](http://www.vagrantup.com/downloads.html).
 
-#### Create a local folder for your Vagrant recipes:
+#### Install Fusion Provider
+TBD
+
+#### Clone this repo
 
 ```
 cd ~
 mkdir Vagrant
 cd Vagrant
-mkdir devstack
 ```
 
 #### Init a vagrant recipe file:

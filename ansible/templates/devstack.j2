@@ -45,26 +45,30 @@ SCHEDULER=nova.scheduler.chance.ChanceScheduler
 # -----
 NEUTRON_BRANCH={{ branch }}
 
+disable_service tempest
+disable_service cinder
+#disable_service heat
+
 disable_service n-net
+enable_service neutron
 enable_service q-svc
 enable_service q-agt
 enable_service q-dhcp
 enable_service q-l3
 enable_service q-meta
+
 # Optional, to enable tempest configuration as part of devstack
-enable_service tempest
-enable_service neutron
-enable_service q-fwaas
-enable_service q-lbaas
-enable_service q-vpn
+#enable_service tempest
+#enable_service neutron
+#enable_service q-fwaas
+#enable_service q-lbaas
+#enable_service q-vpn
 
+Q_PLUGIN=ml2
+Q_ML2_PLUGIN_TYPE_DRIVERS=local,flat,gre
+Q_ML2_PLUGIN_MECHANISM_DRIVERS=openvswitch
 
-# Q_PLUGIN=ml2
-# ENABLE_TENANT_TUNNELS=True
-# TENANT_TUNNEL_RANGE=50:100
-# Q_ML2_PLUGIN_TYPE_DRIVERS=local,flat,gre
-# Q_ML2_PLUGIN_MECHANISM_DRIVERS=openvswitch
-
+PUBLIC_NETWORK_NAME=Ext-Net
 
 # Heat
 # -----
@@ -88,6 +92,7 @@ CINDER_BRANCH={{ branch }}
 # Swift
 # -----
 enable_service s-proxy s-object s-container s-account
+SWIFT_BRANCH={{ branch }}
 SWIFT_HASH={{ swift_hash }}
 SWIFT_REPLICAS={{ swift_replicas }}
 SWIFT_DATA_DIR={{ dest }}/data
@@ -97,7 +102,6 @@ SWIFT_DATA_DIR={{ dest }}/data
 LOGFILE={{ dest }}/logs/stack.sh.log
 LOGDAYS={{ logdays }}
 VERBOSE=True
-# OFFLINE=True
 # LOG_COLOR=False
 SCREEN_LOGDIR={{ dest }}/logs/screen
 
@@ -109,6 +113,8 @@ DATABASE_HOST={{host_ip}}
 RABBIT_HOST={{host_ip}}
 
 RECLONE={{ reclone }}
+# OFFLINE=True
+# MULTI_HOST=True
 API_RATE_LIMIT={{ api_rate_limit }}
 
 [[post-config|$NOVA_CONF]]

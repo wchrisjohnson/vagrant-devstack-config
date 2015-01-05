@@ -1,7 +1,9 @@
 ### Installing devstack via Vagrant
 
-You can use many virtualization technologies to set up a local devstack instance. In
-this repo, we have two different ways you can do that: virtualbox and vmware fusion.
+This repo has been superceded by individual repos for Virtualbox and VMware Fusion.
 
-There is a 'virtualbox' branch and a 'vmware_fusion_branch'. Instructions specific
-to each platform are available in each branch.
+#### Virtualbox
+https://github.com/wchrisjohnson/virtualbox-vagrant-devstack
+
+#### VMware Fusion
+https://github.com/wchrisjohnson/vmwfusion-vagrant-devstack
